@@ -14,6 +14,7 @@ from __future__ import division, print_function
 import math
 import struct
 import warnings
+import numpy as np
 
 __version__ = 'HEAD'
 
@@ -1745,9 +1746,10 @@ def writeVarLength(i):
 
     vlbytes = []
     hibit = 0x00  # low-order byte has high bit cleared.
-    while i > 0:
-        vlbytes.append(((i & 0x7f) | hibit) & 0xff)
-        i >>= 7
+    x=np.uint32(i)
+    while x > 0:
+        vlbytes.append(((x & 0x7f) | hibit) & 0xff)
+        x >>= 7
         hibit = 0x80
     vlbytes.reverse()  # put most-significant byte first, least significant last
     return vlbytes
